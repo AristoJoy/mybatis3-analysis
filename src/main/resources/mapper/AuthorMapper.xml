@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+
+       Copyright 2009-2022 the original author or authors.
+
+       Licensed under the Apache License, Version 2.0 (the "License");
+       you may not use this file except in compliance with the License.
+       You may obtain a copy of the License at
+
+          http://www.apache.org/licenses/LICENSE-2.0
+
+       Unless required by applicable law or agreed to in writing, software
+       distributed under the License is distributed on an "AS IS" BASIS,
+       WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+       See the License for the specific language governing permissions and
+       limitations under the License.
+
+-->
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.apache.ibatis.debug.mapper.AuthorMapper">
+  <sql id="userColumns"> ${alias}.id,${alias}.username,${alias}.password </sql>
+
+  <insert id="insertAuthor">
+    insert into author (id,username,password,email,bio)
+    values (#{id},#{username},#{password},#{email},#{bio})
+  </insert>
+
+  <update id="updateAuthor">
+    update Author set
+                    username = #{username},
+                    password = #{password},
+                    email = #{email},
+                    bio = #{bio}
+    where id = #{id}
+  </update>
+
+  <select id="selectUsers" resultType="map">
+    select
+    <include refid="userColumns"><property name="alias" value="t1"/></include>,
+    <include refid="userColumns"><property name="alias" value="t2"/></include>
+    from some_table t1
+    cross join some_table t2
+  </select>
+</mapper>
